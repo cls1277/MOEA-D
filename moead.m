@@ -30,15 +30,15 @@ function pareto = moead(mop, varargin)
     while ~terminate(itrCounter)
         tic;
         subproblems = evolve(subproblems, mop, params);
-        disp(sprintf('iteration %u finished, time used: %u', itrCounter, toc));
+%         disp(sprintf('iteration %u finished, time used: %u', itrCounter, toc));
         itrCounter = itrCounter + 1;
     end 
 
     %display the result.
     pareto = [subproblems.curpoint];
     pp = [pareto.objective];
-    scatter(pp(1, :), pp(2, :));
-    disp(sprintf('total time used %u', etime(clock, starttime)));
+%     scatter(pp(1, :), pp(2, :));
+%     disp(sprintf('total time used %u', etime(clock, starttime)));
 end 
 
 function [objDim, parDim, idealp, params, subproblems] = init(mop, propertyArgIn)
@@ -87,9 +87,18 @@ function [objDim, parDim, idealp, params, subproblems] = init(mop, propertyArgIn
     %initial the subproblem's initital state.
     % 初始化初始点
     inds = randompoint(mop, params.popsize);
+    
+    disp(size(inds));
+    
+%     disp(V{1,1});
+    disp(inds(1,1));
 
     %　对初始化的点进行评价，并且吧最优点保存在idealp中。
     [V, INDS] = arrayfun(@evaluate, repmat(mop, size(inds)), inds, 'UniformOutput', 0);
+    
+%     disp(V{1,1});
+%     disp(INDS{1,1}.objective);
+    
     v = cell2mat(V);
     idealp = min(idealp, min(v, [], 2));
 

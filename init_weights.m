@@ -9,7 +9,8 @@ function subp = init_weights(popsize, niche, objDim)
 
     % 循环所有的种群规模
 
-    for i = 0:popsize
+    % 这里会让种群数量多一个，应该从0开始吧
+    for i = 1:popsize
 
         % 如果目标有两个，这里可以扩展
 
