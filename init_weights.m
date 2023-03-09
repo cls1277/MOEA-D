@@ -19,6 +19,7 @@ function subp = init_weights(popsize, niche, objDim)
             p = struct('weight', [], 'neighbour', [], 'optimal', Inf, 'optpoint', [], 'curpoint', []);
 
             % 平均划分，定义每个权值向量，然后吧定义好的所有向量装进subp
+%             权重是两行一列的向量，所以才能够跟后面的ind.objective相乘
             weight = zeros(2, 1);
             weight(1) = i / popsize;
             weight(2) = (popsize - i) / popsize;
@@ -51,6 +52,7 @@ function subp = init_weights(popsize, niche, objDim)
             distanceMatrix(j, i) = distanceMatrix(i, j);
         end 
 
+        % 他这里把i也当作i的邻居
         [s, sindex] = sort(distanceMatrix(i, :));
         subp(i).neighbour = sindex(1:niche)';
     end 

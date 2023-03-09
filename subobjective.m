@@ -34,6 +34,11 @@ function obj = subobjective(weight, ind, idealpoint, method)
 end
 
 function obj = ws(weight, ind)
+%     weight是2×20的矩阵
+%     disp(size(weight));
+% disp(size(weight));
+%     disp(size(ind));
+%     理解为：当用新的ind替换掉邻域20个邻居之后，如果更好，就交换。
     if size(ind, 2) == 1 
        obj = (weight'*ind)';
     else
@@ -42,15 +47,21 @@ function obj = ws(weight, ind)
 end
 
 function obj = te(weight, ind, idealpoint)
-    s = size(weight, 2);
-    indsize = size(ind,2);
-    
+%     ind是2乘1的，weight是2乘20的
+    s = size(weight, 2); % 邻居的个数20
+    indsize = size(ind,2); % indsize = 1
+%     disp(indsize);
     weight((weight == 0))=0.00001;
     
     if indsize==s 
+%         disp(size(idealpoint));
+%         disp(size(idealpoint(:,ones(1, indsize))));
+%         disp(size(ind));
+        disp(size(weight));
         part2 = abs(ind-idealpoint(:,ones(1, indsize)));
         obj = max(weight.*part2);
     elseif indsize ==1
+%         disp(size(ind));
         part2 = abs(ind-idealpoint);
         obj = max(weight.*part2(:,ones(1, s)));   
     else

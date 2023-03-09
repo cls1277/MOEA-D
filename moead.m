@@ -82,28 +82,35 @@ function [objDim, parDim, idealp, params, subproblems] = init(mop, propertyArgIn
 
     % 初始化权向量，将问题分解成多个单目标问题
     subproblems = init_weights(params.popsize, params.niche, objDim);
+%     disp(subproblems(1));
     params.popsize = length(subproblems); %　这一句好像是多余的,把100变成了101
+%     disp(subproblems(10).neighbour);
 
     %initial the subproblem's initital state.
     % 初始化初始点
     inds = randompoint(mop, params.popsize);
     
-    disp(size(inds));
+%     disp(size(inds));
     
 %     disp(V{1,1});
-    disp(inds(1,1));
+%     disp(inds(1,1));
 
     %　对初始化的点进行评价，并且吧最优点保存在idealp中。
+    %  之所以实现了“INDS是赋了objective值的inds”的功能，是因为匿名函数evaluate的返回值就是两个值啊
     [V, INDS] = arrayfun(@evaluate, repmat(mop, size(inds)), inds, 'UniformOutput', 0);
     
 %     disp(V{1,1});
-%     disp(INDS{1,1}.objective);
+%     disp(INDS{1,1});
     
     v = cell2mat(V);
+%     disp(v);
     idealp = min(idealp, min(v, [], 2));
+    
+%     disp(idealp);
 
     %indcells = mat2cell(INDS, 1, ones(1,params.popsize));
     [subproblems.curpoint] = INDS{:};
+%     disp(subproblems(1));
     clear inds INDS V indcells;
 end 
 
@@ -113,7 +120,10 @@ function subproblems = evolve(subproblems, mop, params)
     for i = 1:length(subproblems)
         %new point generation using genetic operations, and evaluate it.
         ind = genetic_op(subproblems, i, mop.domain, params);
+%         disp(ind);
+%         ind的30个参数是差分进化生成的 objective是下面求得的
         [obj, ind] = evaluate(mop, ind);
+%         disp(ind);
         %update the idealpoint.
         idealpoint = min(idealpoint, obj);
 
@@ -128,10 +138,17 @@ function subproblems = evolve(subproblems, mop, params)
 end 
 
 function subp = update(subp, ind, idealpoint)
+%     在差分进化之后更新一下邻居
+%     ind是一个新的解向量
+%     调用方式：subproblems(neighbourindex) = update(subproblems(neighbourindex), ind, idealpoint);
     global params
 
+%     subp是一行二十列的矩阵，所以后面的.weight就是的2×20的
+%     disp(size(subp));
+%     理解为：当用新的ind替换掉邻域20个邻居之后，如果更好，就交换。
     newobj = subobjective([subp.weight], ind.objective, idealpoint, params.dmethod);
     oops = [subp.curpoint];
+%     disp(size(oops));
     oldobj = subobjective([subp.weight], [oops.objective], idealpoint, params.dmethod);
 
     C = newobj < oldobj;

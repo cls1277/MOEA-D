@@ -57,6 +57,7 @@ function p = zdt1(p, dim)
     % KNO1 evaluation function.
 
     function y = evaluate(x)
+%         评估之后的objective是2×1的矩阵
         y = zeros(2, 1);
         y(1) = x(1);
         su = sum(x) - x(1);

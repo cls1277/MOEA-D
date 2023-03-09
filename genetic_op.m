@@ -47,9 +47,11 @@ function ind = genetic_op(subproblems, index, domain, params)
     deselect = randomarray < params.CR;
     deselect(jrandom) = true;
     newpoint = selectpoints(:, 1) + params.F * (selectpoints(:, 2) - selectpoints(:, 3));
+    % 得到的新的点的deselect=true的位置不发生变化
     newpoint(~deselect) = oldpoint(~deselect);
 
     %repair the new value.
+    % 在定义域内
     newpoint = max(newpoint, domain(:, 1));
     newpoint = min(newpoint, domain(:, 2));
 
