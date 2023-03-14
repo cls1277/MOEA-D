@@ -156,14 +156,13 @@ function subp = update(subp, ind, idealpoint)
 %     disp(size(oops));
     oldobj = subobjective([subp.weight], [oops.objective], idealpoint, params.dmethod);
 
-%     disp(size(newobj));
-%     disp(size(oldobj));
     C = newobj < oldobj;
 %     disp(size(C));
 %     disp(C);
 % 为什么C是2✖️20的呢？那下一句的处理效果是什么样的呢？
-% 解释：C不是2✖️20的！！！是1✖️20的，人家没有问题！！！
+    disp(subp(1).curpoint);
     [subp(C).curpoint] = deal(ind);
+    disp(subp(1).curpoint);
 %     deal是一个处理输入和输出的内置函数
     clear C newobj oops oldobj;
 end 

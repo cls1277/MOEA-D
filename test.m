@@ -21,4 +21,9 @@ x.*y;
 
 indsize = 20;
 idealpoint = rand(2,1);
-idealpoint(:,ones(1, indsize))
+idealpoint(:,ones(1, indsize));
+
+x = rand(1, 20);
+c = x<0.5
+p = rand(1, 20)
+p(c) = 1

@@ -61,7 +61,7 @@ function obj = te(weight, ind, idealpoint)
 %         disp(size(idealpoint));
 %         disp(size(idealpoint(:,ones(1, indsize))));
 %         disp(size(ind));
-        disp(size(weight));
+%         disp(size(weight));
         part2 = abs(ind-idealpoint(:,ones(1, indsize)));
         obj = max(weight.*part2);
     elseif indsize ==1
