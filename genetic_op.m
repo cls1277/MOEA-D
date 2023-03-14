@@ -41,8 +41,10 @@ function ind = genetic_op(subproblems, index, domain, params)
     oldpoint = subproblems(index).curpoint.parameter;
     parDim = size(domain, 1);
 
+%     在这里可以利用邻域信息构造更好的解
     jrandom = ceil(rand * parDim);
 
+%     基于CR参数，来确定使用差分的结果替换哪些变量
     randomarray = rand(parDim, 1);
     deselect = randomarray < params.CR;
     deselect(jrandom) = true;

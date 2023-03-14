@@ -84,6 +84,8 @@ function [objDim, parDim, idealp, params, subproblems] = init(mop, propertyArgIn
     subproblems = init_weights(params.popsize, params.niche, objDim);
 %     disp(subproblems(1));
     params.popsize = length(subproblems); %　这一句好像是多余的,把100变成了101
+%     对上面这句注释的解释：是因为init_weight中把起始下标写成0了，所以会多一个
+%     考虑一下张老师到底为什么写成0？？？
 %     disp(subproblems(10).neighbour);
 
     %initial the subproblem's initital state.
@@ -105,6 +107,7 @@ function [objDim, parDim, idealp, params, subproblems] = init(mop, propertyArgIn
     v = cell2mat(V);
 %     disp(v);
     idealp = min(idealp, min(v, [], 2));
+%     min(A,[],2) 是包含每一行的最小值的列向量
     
 %     disp(idealp);
 
@@ -143,6 +146,8 @@ function subp = update(subp, ind, idealpoint)
 %     调用方式：subproblems(neighbourindex) = update(subproblems(neighbourindex), ind, idealpoint);
     global params
 
+
+%     这里想清楚为什么要做两遍
 %     subp是一行二十列的矩阵，所以后面的.weight就是的2×20的
 %     disp(size(subp));
 %     理解为：当用新的ind替换掉邻域20个邻居之后，如果更好，就交换。
@@ -152,7 +157,11 @@ function subp = update(subp, ind, idealpoint)
     oldobj = subobjective([subp.weight], [oops.objective], idealpoint, params.dmethod);
 
     C = newobj < oldobj;
+%     disp(size(C));
+%     disp(C);
+% 为什么C是2✖️20的呢？那下一句的处理效果是什么样的呢？
     [subp(C).curpoint] = deal(ind);
+%     deal是一个处理输入和输出的内置函数
     clear C newobj oops oldobj;
 end 
 

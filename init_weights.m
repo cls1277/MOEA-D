@@ -1,4 +1,5 @@
 function subp = init_weights(popsize, niche, objDim)
+% 做完了init_weights只存了weight和neighbour
     % 权值向量初始化函数，使用分解权重和近邻关系来初始化权值向量
     % init_weights function initialize a pupulation of subproblems structure
     % with the generated decomposition weight and the neighbourhood

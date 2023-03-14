@@ -11,12 +11,13 @@ function ind = randompoint(prob, n)
     lowend = prob.domain(:, 1);
     span = prob.domain(:, 2) - lowend;
     point = randarray .* (span(:, ones(1, n))) + lowend(:, ones(1, n));
-    % 然后把生成的随机数变成变成元孢
+    % 然后把生成的随机数变成变成元胞
     cellpoints = num2cell(point, 1);
 
-    % 吧生成的元孢装进ind中
+    % 把生成的元胞装进ind中
     indiv = struct('parameter', [], 'objective', [], 'estimation', []);
     ind = repmat(indiv, 1, n);
+%     parm是列向量
     [ind.parameter] = cellpoints{:};
 
     % estimation = struct('obj', NaN, 'std', NaN);

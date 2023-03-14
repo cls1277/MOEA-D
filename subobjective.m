@@ -33,6 +33,10 @@ function obj = subobjective(weight, ind, idealpoint, method)
     end
 end
 
+% 以下判断if其实就是为了两种情况：只传进一个MOP值，传进neighbor size个MOP值
+% 对两种情况，分别计算ws和ts，前者为复制neighbot size份之后再计算
+% 得到的结果进行比较，前者为newobj，后者为oldobj
+
 function obj = ws(weight, ind)
 %     weight是2×20的矩阵
 %     disp(size(weight));
